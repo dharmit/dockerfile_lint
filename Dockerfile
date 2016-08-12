@@ -14,11 +14,11 @@ RUN npm install && \
 
 RUN mkdir /sample_rules  && \
     cp sample_rules/basic_rules_atomic.yaml  sample_rules/basic_rules.yaml  sample_rules/label_rules.yaml  \
-       sample_rules/openshift.yaml  sample_rules/osbs.yaml  sample_rules/recommended_label_rules.yaml \
-       sample_rules/default_rules.yaml /sample_rules
+       sample_rules/openshift.yaml  sample_rules/osbs.yaml  sample_rules/recommended_label_rules.yaml /sample_rules
+       # sample_rules/default_rules.yaml /sample_rules
 
 
 WORKDIR /root/
 LABEL RUN docker run -it --rm --privileged -v `pwd`:/root/ -v /var/run/docker.sock:/var/run/docker.sock --name NAME -e NAME=NAME -e IMAGE=IMAGE IMAGE dockerfile_lint
 
-CMD /bin/bash
+ENTRYPOINT ["dockerfile_lint", "-f", "/root/scan/Dockerfile", "-r", "/opt/dockerfile_lint/config/default_rules.yaml"]
